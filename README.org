@@ -1,0 +1,57 @@
+#+title: System Libraries for Immediate Inter-Process Notifications
+#+subtitle: Case-Study on Automotive Event Data Recorders
+#+startup: showall
+
+* Building
+#+begin_src bash
+  guix shell --pure -Df guix.scm -- make -j4 debug
+#+end_src
+
+* Prepare The Data
+#+begin_src bash
+  guix shell --pure -Df guix.scm -- ./generate.sh
+#+end_src
+
+* Running
+** Setup VCAN
+#+begin_src bash
+  ./vcan-setup.sh
+#+end_src
+
+** Manual
+#+begin_src bash
+
+  # on terminal 0 (candump)
+  guix shell --pure -Df guix.scm -- ./build/bin/main vcan0 edr.db
+
+  # on terminal 1 (canplayer)
+  guix shell --pure -Df guix.scm -- ./build/bin/can_play ./log/random-hcar-005-8328.log vcan0
+
+  # on terminal 2 (gtk)
+  guix shell --pure -Df guix.scm -- ./build/bin/gtk
+#+end_src
+
+** Scripted
+#+begin_src bash
+  guix shell --pure -Df guix.scm -- ./run-single.sh ./log/random-hcar-005-8328.log
+#+end_src
+
+** Scripted Saving Graphs
+#+begin_src bash
+  guix shell --pure -Df guix.scm -- ./run-single.sh ./log/random-hcar-005-8328.log --save --metrics
+#+end_src
+
+** Power Consumption
+#+begin_src bash
+  guix shell --pure -Df guix.scm -- nc 192.168.4.1 -T 23 | stdbuf -oL cut -d',' -f3 | cat | ./data/power_plot.py
+#+end_src
+
+* Datasets
+The datasets used were taken from the [[https://github.com/Yiru-Jiao/Reconstruct100CarNDSData][Yiru-Jiao/Reconstruct100CarNDSData]] repo.
+
+* Audio Bell.oga
+Copyright: Dr. Richard Boulanger et al
+
+URL: http://www.archive.org/details/Berklee44v12
+
+License: CC-BY Attribution 3.0 Unported

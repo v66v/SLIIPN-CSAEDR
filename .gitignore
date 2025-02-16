@@ -1,0 +1,9 @@
+.ccls
+.ccls-cache
+build
+log
+data/csv
+data/raw
+data/images
+*.o
+log/

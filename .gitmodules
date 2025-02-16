@@ -1,0 +1,3 @@
+[submodule "etc/Reconstruct100CarNDSData"]
+	path = etc/Reconstruct100CarNDSData
+	url = https://github.com/Yiru-Jiao/Reconstruct100CarNDSData.git
